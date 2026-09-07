@@ -484,7 +484,7 @@
 <li><a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 flex items-center gap-2" href="#"><span class="material-symbols-outlined text-[18px]">mail</span> Contacto</a></li>
 <li><a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 flex items-center gap-2" href="#"><span class="material-symbols-outlined text-[18px]">photo_camera</span> Instagram</a></li>
 <li><a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 flex items-center gap-2" href="https://www.facebook.com/MobileZone.AR" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined text-[18px]">thumb_up</span> Facebook</a></li>
-<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 flex items-center gap-2" href="https://wa.me/15551234567" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined text-[18px]">chat</span> WhatsApp</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 flex items-center gap-2" href="https://wa.me/59162628578" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined text-[18px]">chat</span> WhatsApp</a></li>
 </ul>
 </div>
 </div>
@@ -498,7 +498,7 @@
 <button aria-label="Cerrar modal" class="md:hidden absolute top-4 right-4 p-2 bg-surface rounded-full text-on-surface shadow-sm" onclick="closeModal()">
 <span class="material-symbols-outlined">close</span>
 </button>
-<img class="object-contain h-full w-full max-h-[400px] mix-blend-multiply" data-alt="A close-up, high-resolution rendering of a modern smartphone interface displaying sleek, minimalist widgets. The phone frame is metallic and catches a bright, directional light typical of high-end product photography. The aesthetic relies on the light-mode theme, utilizing expansive white areas and subtle drop shadows to create a sense of depth and technical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzF__GKcjL0mYUIJJzXFU7gGCb06QJrP-2n_qSXkJzNHOSk5r4Z8SinMTqv2EO9yRwPJAsa8MYry-mOXr3wfE2JlZnsBGZwCu_ePMy6RyqBCI7Dvh-6gy4ixI9v1NoE4gvwTBP1h39qjEpXONw-1TWiFSs4yQgUL16edVOoVMUGEboCYQyPnrplPYlbi6C2i5INOBsqJMqsObp9ltoZeQCm6Air5rhfogHE7HOaV2osXaOSKXjaSPp"/>
+<img id="modal-image" class="object-contain h-full w-full max-h-[400px] mix-blend-multiply" data-alt="Imagen del producto seleccionado" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzF__GKcjL0mYUIJJzXFU7gGCb06QJrP-2n_qSXkJzNHOSk5r4Z8SinMTqv2EO9yRwPJAsa8MYry-mOXr3wfE2JlZnsBGZwCu_ePMy6RyqBCI7Dvh-6gy4ixI9v1NoE4gvwTBP1h39qjEpXONw-1TWiFSs4yQgUL16edVOoVMUGEboCYQyPnrplPYlbi6C2i5INOBsqJMqsObp9ltoZeQCm6Air5rhfogHE7HOaV2osXaOSKXjaSPp"/>
 </div>
 <!-- Modal Info Section -->
 <div class="w-full md:w-1/2 p-8 flex flex-col overflow-y-auto">
@@ -559,6 +559,9 @@
 
         function openModal(productName) {
             modalTitle.textContent = productName;
+                        const card = [...document.querySelectorAll('article')].find((item) => item.querySelector('h3')?.textContent.trim() === productName);
+                        const image = card?.querySelector('img');
+                        if (image) { document.getElementById('modal-image').src = image.src; document.getElementById('modal-image').alt = productName; }
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }

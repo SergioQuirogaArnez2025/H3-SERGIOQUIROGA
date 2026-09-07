@@ -1,6 +1,7 @@
 (function () {
     const facebookUrl = 'https://www.facebook.com/MobileZone.AR';
-    const whatsappUrl = 'https://wa.me/15551234567';
+    const phoneNumber = '59162628578';
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
     document.querySelectorAll('img').forEach((image) => {
         if (!image.hasAttribute('alt')) image.alt = image.dataset.alt || 'Imagen de MobileZone';
         if (!image.hasAttribute('width')) image.width = 600;
@@ -46,6 +47,9 @@
         header nav a:hover { transform: translateY(-1px); }
         header button { transition: background-color .25s ease, color .25s ease, transform .25s ease; }
         header button:hover { color: var(--mz-blue-dark); transform: translateY(-1px); }
+        .mz-mobile-menu a { display: block; padding: .8rem 1rem; border-radius: .6rem; color: var(--mz-ink); font-weight: 700; }
+        .mz-mobile-menu a:hover { background: var(--mz-cloud); color: var(--mz-blue); }
+        .mz-search-panel { display: none; }
         .cart-page, .offers-page { padding-inline: clamp(1rem, 5vw, 4rem) !important; }
         button:not([disabled]), a[role="button"] {
             transition: background-color .25s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease, transform .25s ease, filter .25s ease !important;
@@ -74,6 +78,36 @@
         input:focus, select:focus { border-color: var(--mz-blue) !important; box-shadow: 0 0 0 4px rgba(21, 94, 239, .12) !important; }
         #contactForm #submitBtn { background: var(--mz-blue) !important; color: #fff !important; border: 1px solid var(--mz-blue-dark); }
         #contactForm #submitBtn:hover { background: var(--mz-blue-dark) !important; color: #fff !important; }
+        #product-modal .modal-content { color: var(--mz-ink) !important; }
+        #product-modal .modal-content p, #product-modal .modal-content li { color: var(--mz-ink) !important; line-height: 1.65 !important; }
+        #productModal > div:last-child > div:last-child, #product-modal .modal-content > div:last-child {
+            background: rgba(255, 255, 255, .98) !important;
+            box-shadow: inset 10px 0 24px rgba(16, 35, 63, .06);
+            color: var(--mz-ink) !important;
+        }
+        #productModal > div:first-child, #product-modal {
+            background: rgba(16, 35, 63, .58) !important;
+            backdrop-filter: blur(9px) saturate(.9) !important;
+            -webkit-backdrop-filter: blur(9px) saturate(.9) !important;
+        }
+        #productModal > div:last-child > div:last-child h2, #product-modal .modal-content > div:last-child h2 {
+            color: var(--mz-ink) !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, .9);
+        }
+        #productModal #modalDesc, #product-modal .modal-content > div:last-child > p {
+            background: #f4f7fb !important;
+            border-left: 4px solid var(--mz-blue);
+            border-radius: .5rem;
+            box-shadow: 0 3px 10px rgba(16, 35, 63, .08);
+            padding: .85rem 1rem;
+            color: var(--mz-ink) !important;
+        }
+        #productModal .space-y-4, #product-modal .space-y-4 {
+            background: #f8fafc;
+            border-radius: .5rem;
+            padding: .9rem 1rem;
+            box-shadow: 0 3px 10px rgba(16, 35, 63, .06);
+        }
         .glass-card, .glass-panel, article {
             border-color: rgba(220, 229, 240, .92) !important;
             box-shadow: var(--mz-shadow) !important;
@@ -131,7 +165,7 @@
         const card = button.closest('article, .product-card, .glass-card');
         const title = card?.querySelector('h3')?.textContent.trim() || 'Producto MobileZone';
         const priceText = card?.querySelector('.text-primary, .text-secondary')?.textContent || '$565.67';
-        return { name: title, price: Number(priceText.replace(/[^0-9.]/g, '')) || 565.67 };
+        return { name: title, price: Number(priceText.replace(/[^0-9.]/g, '')) || 565.67, image: card?.querySelector('img')?.src || '' };
     };
     window.mobilezoneAddToCart = function (amount, product) {
         const items = readItems();
@@ -157,17 +191,17 @@
         const active = location.pathname.includes('smartphones') ? 'smartphones' : location.pathname.includes('comparar') ? 'comparar' : location.pathname.includes('ofertas') ? 'ofertas' : location.pathname.includes('contacto') ? 'contacto' : 'inicio';
         const nav = document.createElement('header');
         nav.className = 'fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-line shadow-sm';
-        nav.innerHTML = `<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full max-w-max-width mx-auto"><a class="font-display-hero text-headline-md tracking-tighter text-primary" href="${routes.inicio}">MOBILEZONE</a><nav class="hidden md:flex items-center gap-6">${[['inicio','Inicio'],['smartphones','Smartphones'],['comparar','Comparar'],['ofertas','Ofertas'],['contacto','Contacto']].map(([key,label]) => `<a class="font-body-md ${active === key ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant'} pb-1" href="${routes[key]}">${label}</a>`).join('')}</nav><div class="flex items-center gap-4 text-primary"><button aria-label="Carrito de compras" data-cart-button class="p-2 rounded-full hover:bg-surface-container-low"><span class="material-symbols-outlined">shopping_cart</span><span id="cart-counter" class="absolute -mt-1 -mr-1 bg-error text-on-error text-label-sm w-5 h-5 rounded-full flex items-center justify-center">0</span></button><button aria-label="Buscar" data-search-button class="p-2 rounded-full hover:bg-surface-container-low"><span class="material-symbols-outlined">search</span></button><button aria-label="Menú" class="md:hidden p-2 rounded-full"><span class="material-symbols-outlined">menu</span></button></div></div>`;
+        nav.innerHTML = `<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full max-w-max-width mx-auto"><a class="font-display-hero text-headline-md tracking-tighter text-primary" href="${routes.inicio}">MOBILEZONE</a><nav class="hidden md:flex items-center gap-6">${[['inicio','Inicio'],['smartphones','Smartphones'],['comparar','Comparar'],['ofertas','Ofertas'],['contacto','Contacto']].map(([key,label]) => `<a class="font-body-md ${active === key ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant'} pb-1" href="${routes[key]}">${label}</a>`).join('')}</nav><div class="flex items-center gap-4 text-primary"><button aria-label="Carrito de compras" data-cart-button class="p-2 rounded-full hover:bg-surface-container-low"><span class="material-symbols-outlined">shopping_cart</span><span id="cart-counter" class="absolute -mt-1 -mr-1 bg-error text-on-error text-label-sm w-5 h-5 rounded-full flex items-center justify-center">0</span></button><button aria-label="Buscar" data-search-button class="p-2 rounded-full hover:bg-surface-container-low"><span class="material-symbols-outlined">search</span></button><button aria-label="Menú" data-menu-button class="md:hidden p-2 rounded-full"><span class="material-symbols-outlined">menu</span></button></div></div><div data-mobile-menu class="hidden absolute top-16 left-0 right-0 bg-white border-b border-line shadow-lg p-4 flex-col gap-1">${[['inicio','Inicio'],['smartphones','Smartphones'],['comparar','Comparar'],['ofertas','Ofertas'],['contacto','Contacto']].map(([key,label]) => `<a href="${routes[key]}">${label}</a>`).join('')}</div>`;
         document.querySelector('header, nav')?.remove(); document.body.prepend(nav);
         const footer = document.querySelector('footer');
-        if (footer) footer.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-max-width mx-auto"><div><span class="font-display-hero text-headline-md text-primary mb-4 block">MOBILEZONE</span><p class="text-on-surface-variant mb-4">Tecnología premium a tu alcance. Especialistas en dispositivos móviles de alta gama.</p><p class="text-muted text-sm">© 2026 Sergio Quiroga. Todos los derechos reservados.</p></div><div><h4 class="font-label-md font-bold mb-4">Navegación</h4><div class="flex flex-col gap-2">${[['inicio','Inicio'],['smartphones','Smartphones'],['comparar','Comparar'],['ofertas','Ofertas']].map(([key,label]) => `<a class="text-on-surface-variant hover:text-primary" href="${routes[key]}">${label}</a>`).join('')}</div></div><div><h4 class="font-label-md font-bold mb-4">Contacto</h4><div class="flex flex-col gap-2"><a class="text-on-surface-variant hover:text-primary" href="${routes.contacto}">Contacto</a><span class="text-on-surface-variant">soporte@mobilezone.com</span><span class="text-on-surface-variant">+1 (555) 123-4567</span></div></div><div><h4 class="font-label-md font-bold mb-4">Síguenos</h4><div class="flex flex-col gap-2"><a class="text-on-surface-variant hover:text-primary" href="https://instagram.com">Instagram</a><a class="text-on-surface-variant hover:text-primary" href="${facebookUrl}" target="_blank" rel="noopener noreferrer">Facebook</a><a class="text-on-surface-variant hover:text-primary" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></div>`;
+        if (footer) footer.innerHTML = footer.innerHTML.replace(/https:\/\/wa\.me\/[^"']+/g, whatsappUrl).replace(/\+\d[\d ()-]+/g, `+${phoneNumber.slice(0, 3)} ${phoneNumber.slice(3)}`);
     };
     const renderCart = () => {
         const container = document.querySelector('.lg\\:col-span-8'); if (!container) return;
         let items = readItems();
         if (!items.length) { const count = Number(localStorage.getItem(oldCountKey) || 0); if (count) items = [{ name: 'Productos seleccionados', price: 565.67, quantity: count }]; }
         container.querySelectorAll('.glass-panel').forEach((item) => item.remove());
-        items.forEach((item, index) => { const row = document.createElement('div'); row.className = 'glass-panel rounded-xl p-4 md:p-6 flex flex-col sm:flex-row gap-6 relative soft-shadow bg-surface-container-lowest'; row.innerHTML = `<div class="flex-grow"><div class="flex justify-between"><h3 class="font-headline-md text-lg">${item.name}</h3><button aria-label="Eliminar producto" class="text-muted hover:text-error p-1" data-remove="${index}"><span class="material-symbols-outlined">delete</span></button></div><div class="flex justify-between items-center mt-6"><div class="flex items-center border border-line rounded-lg overflow-hidden"><button aria-label="Disminuir cantidad" class="px-3 py-1" data-minus="${index}">-</button><span class="px-3 min-w-[2rem] text-center">${item.quantity}</span><button aria-label="Aumentar cantidad" class="px-3 py-1" data-plus="${index}">+</button></div><span class="font-headline-md text-primary text-xl">$${(item.price * item.quantity).toFixed(2)}</span></div></div>`; container.prepend(row); });
+        items.forEach((item, index) => { const row = document.createElement('div'); row.className = 'glass-panel rounded-xl p-4 md:p-6 flex flex-col sm:flex-row gap-6 relative soft-shadow bg-surface-container-lowest'; row.innerHTML = `<img src="${item.image || ''}" alt="${item.name}" class="w-20 h-20 object-contain rounded-lg bg-surface-container-low p-2 flex-shrink-0" /><div class="flex-grow"><div class="flex justify-between"><h3 class="font-headline-md text-lg">${item.name}</h3><button aria-label="Eliminar producto" class="text-muted hover:text-error p-1" data-remove="${index}"><span class="material-symbols-outlined">delete</span></button></div><div class="flex justify-between items-center mt-6"><div class="flex items-center border border-line rounded-lg overflow-hidden"><button aria-label="Disminuir cantidad" class="px-3 py-1" data-minus="${index}">-</button><span class="px-3 min-w-[2rem] text-center">${item.quantity}</span><button aria-label="Aumentar cantidad" class="px-3 py-1" data-plus="${index}">+</button></div><span class="font-headline-md text-primary text-xl">$${(item.price * item.quantity).toFixed(2)}</span></div></div>`; container.prepend(row); });
         container.querySelectorAll('[data-remove]').forEach((button) => button.onclick = () => { items.splice(Number(button.dataset.remove), 1); saveItems(items); renderCart(); });
         container.querySelectorAll('[data-minus], [data-plus]').forEach((button) => button.onclick = () => { const item = items[Number(button.dataset.minus ?? button.dataset.plus)]; item.quantity += button.dataset.plus ? 1 : -1; saveItems(items); renderCart(); });
         const total = items.reduce((sum, item) => sum + item.quantity * item.price, 0); const count = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -183,10 +217,37 @@
         }
         saveItems(initialItems); renderCart();
         document.querySelectorAll('[data-cart-button]').forEach((button) => button.onclick = () => window.mobilezoneGo('carrito'));
-        document.querySelectorAll('[data-search-button]').forEach((button) => button.onclick = () => window.mobilezoneGo('smartphones'));
+        document.querySelectorAll('[data-menu-button]').forEach((button) => button.onclick = () => {
+            const menu = document.querySelector('[data-mobile-menu]');
+            menu?.classList.toggle('hidden');
+            menu?.classList.toggle('flex');
+        });
+        document.querySelectorAll('[data-search-button]').forEach((button) => button.onclick = () => {
+            const input = document.querySelector('#searchInput');
+            if (input) { input.focus(); input.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+            let panel = document.querySelector('.mz-search-panel');
+            if (!panel) {
+                panel = document.createElement('form');
+                panel.className = 'mz-search-panel fixed top-20 left-4 right-4 md:left-1/3 md:right-1/3 z-50 bg-white p-3 rounded-xl shadow-xl border border-line';
+                panel.innerHTML = '<input class="w-full px-4 py-3 rounded-lg border border-line" type="search" placeholder="Buscar smartphones..." aria-label="Buscar smartphones" />';
+                panel.onsubmit = (event) => { event.preventDefault(); const value = panel.querySelector('input').value.trim(); if (value) window.location.href = `${routes.smartphones}?search=${encodeURIComponent(value)}`; };
+                document.body.append(panel);
+            }
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            panel.querySelector('input').focus();
+        });
+        const query = new URLSearchParams(location.search).get('search')?.toLowerCase();
+        if (query) {
+            const input = document.querySelector('#searchInput');
+            if (input) { input.value = query; input.dispatchEvent(new Event('input')); }
+            document.querySelectorAll('article, .product-card').forEach((card) => { card.style.display = card.textContent.toLowerCase().includes(query) ? '' : 'none'; });
+        }
         document.querySelectorAll('button').forEach((button) => {
             const text = button.textContent.trim().toLowerCase(); const label = (button.getAttribute('aria-label') || '').toLowerCase();
-            if (/añadir|add to cart|comprar|add_shopping_cart/.test(text) && !/explorar|ver todas/.test(text)) button.onclick = () => { mobilezoneAddToCart(1, productFrom(button)); if (/comprar/.test(text)) window.mobilezoneGo('carrito'); };
+            if (/añadir|add to cart|comprar|add_shopping_cart/.test(text) && !/explorar|ver todas/.test(text)) button.onclick = () => { mobilezoneAddToCart(1, productFrom(button)); if (button.closest('#productModal, #product-modal')) window.closeModal?.(); if (/comprar/.test(text)) window.mobilezoneGo('carrito'); };
+        });
+        document.querySelectorAll('button').forEach((button) => {
+            if (button.textContent.trim().toLowerCase().includes('ver todas las ofertas')) button.onclick = () => window.mobilezoneGo('ofertas');
         });
         const sort = document.querySelector('select'); const grid = sort?.closest('section')?.querySelector('.grid');
         if (sort && grid) sort.onchange = () => [...grid.children].sort((a, b) => { const price = (card) => Number((card.querySelector('.text-primary')?.textContent || '0').replace(/[^0-9.]/g, '')); return sort.selectedIndex === 1 ? price(a) - price(b) : sort.selectedIndex === 2 ? price(b) - price(a) : 0; }).forEach((card) => grid.append(card));

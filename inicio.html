@@ -292,7 +292,7 @@
 <ul class="flex gap-4">
 <li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Instagram</a></li>
 <li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="https://www.facebook.com/MobileZone.AR" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-<li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="https://wa.me/15551234567" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="https://wa.me/59162628578" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
 </ul>
 </div>
 </div>
@@ -404,9 +404,9 @@
         const modalInner = modal.querySelector('div:last-child');
         
         const productData = {
-            'iphone15': { brand: 'Apple', title: 'iPhone 15 Pro Max', price: '$1,199', desc: 'El titanio se une a la potencia del chip A17 Pro. Una experiencia fotográfica sin precedentes con el nuevo zoom óptico de 5x.' },
-            's24': { brand: 'Samsung', title: 'Galaxy S24 Ultra', price: '$1,299', desc: 'Galaxy AI ha llegado. Rendimiento épico, un diseño de titanio de nivel superior y la experiencia S Pen integrada más avanzada.' },
-            'redmi': { brand: 'Xiaomi', title: 'Redmi Note 13 Pro+', price: '$499', desc: 'Cámara de 200MP con OIS. Pantalla curva AMOLED de 1.5K a 120Hz. Carga HyperCharge de 120W que llena tu batería en minutos.' }
+            'iphone15': { brand: 'Apple', title: 'iPhone 15 Pro Max', price: '$1,199', image: document.querySelector('[data-brand="apple"] img').src, desc: 'El titanio se une a la potencia del chip A17 Pro. Una experiencia fotográfica sin precedentes con el nuevo zoom óptico de 5x.' },
+            's24': { brand: 'Samsung', title: 'Galaxy S24 Ultra', price: '$1,299', image: document.querySelector('[data-brand="samsung"] img').src, desc: 'Galaxy AI ha llegado. Rendimiento épico, un diseño de titanio de nivel superior y la experiencia S Pen integrada más avanzada.' },
+            'redmi': { brand: 'Xiaomi', title: 'Redmi Note 13 Pro+', price: '$499', image: document.querySelector('[data-brand="xiaomi"] img').src, desc: 'Cámara de 200MP con OIS. Pantalla curva AMOLED de 1.5K a 120Hz. Carga HyperCharge de 120W que llena tu batería en minutos.' }
         };
 
         function openModal(id) {
@@ -415,6 +415,8 @@
             document.getElementById('modalTitle').textContent = data.title;
             document.getElementById('modalPrice').textContent = data.price;
             document.getElementById('modalDesc').textContent = data.desc;
+            document.getElementById('modalImage').src = data.image;
+            document.getElementById('modalImage').alt = data.title;
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
